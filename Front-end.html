@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Crypto Prediction Website</title>
+    <link rel="stylesheet" type="text/css" href="Style.css">
+</head>
+
+<body>
+    <div class="header">
+        <h1>Welcome to CryptoPredictions</h1>
+    </div>
+
+    <div class="content">
+        <body>
+            <header>
+                <nav>
+                    <div class="logo">
+                        <img src="logo.png" alt="CryptoPredictions Logo">
+                    </div>
+                    <ul>
+                        <li><a href="Front-end.php">Home</a></li>
+                        <li><a href="#">Predictions</a></li>
+                        <li><a href="#">Charts</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact">Contact</a></li>
+                    </ul>
+                    <div class="search-box">
+                        <input type="text" placeholder="Search...">
+                        <button>Search</button>
+                    </div>
+                </nav>
+            </header>
+
+            <script>
+                // Replace 'YOUR_API_KEY' with your Binance API key
+                const apiKey = 'YOUR_API_KEY';
+        
+                // Define an array of cryptocurrency symbols you want to fetch
+                const cryptocurrencies = [
+                    'BTCUSDT', 
+                    'ETHUSDT', 
+                    'BNBUSDT', 
+                    
+                ];
+        
+                // Function to fetch and update cryptocurrency prices
+                function fetchCryptocurrencyPrices() {
+                    const cryptoList = document.getElementById('crypto-list');
+                    
+                    Promise.all(
+                        cryptocurrencies.map(symbol => {
+                            const endpoint = `https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`;
+                            return fetch(endpoint)
+                                .then(response => response.json())
+                                .then(data => {
+                                    const cryptoPrice = parseFloat(data.price).toFixed(2);
+                                    const listItem = document.createElement('li');
+                                    listItem.textContent = `${symbol}: $${cryptoPrice}`;
+                                    cryptoList.appendChild(listItem);
+                                });
+                        })
+                    )
+                    .catch(error => {
+                        console.error('Error fetching cryptocurrency prices:', error);
+                    });
+                }
+        
+                // Fetch cryptocurrency prices on page load
+                fetchCryptocurrencyPrices();
+        
+                // Update cryptocurrency prices every 5 seconds (adjust as needed)
+                setInterval(fetchCryptocurrencyPrices, 5000);
+            </script>
+
+            <section class="hero">
+                <div class="hero-content">
+                    <h1>Welcome to CryptoPredictions</h1>
+                    <p>Stay ahead with accurate cryptocurrency price predictions.</p>
+                    <a href="Get-Start.html" class="btn">Get Started</a>
+                </div>
+            </section>
+
+            <section class="predictions">
+                <h2>Latest Predictions</h2>
+                <div class="prediction-cards">
+                    <div class="prediction-card">
+                        <h3>Bitcoin</h3>
+                        <p>Predicted Price: $50,000</p>
+                    </div>
+                    <div class="prediction-card">
+                        <h3>Ethereum</h3>
+                        <p>Predicted Price: $3,000</p>
+                    </div>
+                    <div class="prediction-card">
+                        <h3>LUNA</h3>
+                        <p>Predicted Price: Not A $</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="about">
+                <div class="about-content">
+                    <h2>About CryptoPredictions</h2>
+                    <p>CryptoPredictions is a leading platform for accurate cryptocurrency price predictions. Our team
+                        of experts analyzes market trends, historical data, and technical indicators to provide reliable
+                        predictions for various cryptocurrencies.</p>
+                    <a href="#" class="btn">Learn More</a>
+                </div>
+            </section>
+
+            <footer>
+                <p>&copy; 2023 CryptoPredictions. All rights reserved.</p>
+            </footer>
+        </body>
+    </div>
+</body>
+
+</html>
