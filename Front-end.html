@@ -4,97 +4,70 @@
 <head>
     <title>Crypto Prediction Website</title>
     <link rel="stylesheet" type="text/css" href="Style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
-    <div class="header">
-        <h1>Welcome to CryptoPredictions</h1>
+    <div class="header" style="text-align: center;">
+        <h1>Welcome to RyoichiPredictions</h1>
     </div>
 
-    <div class="content">
+    <div class="content" style="margin-right: 10px">
+
         <body>
-            <header>
+            <header
+                style="padding: 5px; background-color: #f9000030; border-radius: 3px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
                 <nav>
-                    <div class="logo">
+                    <div class="logo" style="text-align: center; margin-bottom: 10px;">
                         <img src="logo.png" alt="CryptoPredictions Logo">
                     </div>
-                    <ul>
-                        <li><a href="Front-end.php">Home</a></li>
-                        <li><a href="#">Predictions</a></li>
-                        <li><a href="#">Charts</a></li>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="contact">Contact</a></li>
+                    <ul style="margin-left: 120px; list-style-type: none; padding: 0;">
+                        <li style="display: inline-block; margin-right: 15px;"><a href="Front-end.html">Home</a></li>
+                        <li style="display: inline-block; margin-right: 15px;"><a
+                                href="Predictions.html">Predictions</a></li>
+                        <li style="display: inline-block; margin-right: 15px;"><a href="chart.html">Charts</a></li>
+                        <li style="display: inline-block; margin-right: 15px;"><a href="about.html">About</a></li>
+                        <li style="display: inline-block;"><a href="contact.html">Contact</a></li>
                     </ul>
-                    <div class="search-box">
-                        <input type="text" placeholder="Search...">
-                        <button>Search</button>
+                    <div class="search-box" style="margin-top: 0px;">
+                        <input type="text" placeholder="Search..."
+                            style="padding: 5px; border-radius: 3px; border: 1px solid #ccc;">
+                        <button style="padding: 5px 8px; border-radius: 3px; margin-left: 5px;">Search</button>
                     </div>
                 </nav>
             </header>
-
-            <script>
-                // Replace 'YOUR_API_KEY' with your Binance API key
-                const apiKey = 'YOUR_API_KEY';
-        
-                // Define an array of cryptocurrency symbols you want to fetch
-                const cryptocurrencies = [
-                    'BTCUSDT', 
-                    'ETHUSDT', 
-                    'BNBUSDT', 
-                    
-                ];
-        
-                // Function to fetch and update cryptocurrency prices
-                function fetchCryptocurrencyPrices() {
-                    const cryptoList = document.getElementById('crypto-list');
-                    
-                    Promise.all(
-                        cryptocurrencies.map(symbol => {
-                            const endpoint = `https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`;
-                            return fetch(endpoint)
-                                .then(response => response.json())
-                                .then(data => {
-                                    const cryptoPrice = parseFloat(data.price).toFixed(2);
-                                    const listItem = document.createElement('li');
-                                    listItem.textContent = `${symbol}: $${cryptoPrice}`;
-                                    cryptoList.appendChild(listItem);
-                                });
-                        })
-                    )
-                    .catch(error => {
-                        console.error('Error fetching cryptocurrency prices:', error);
-                    });
-                }
-        
-                // Fetch cryptocurrency prices on page load
-                fetchCryptocurrencyPrices();
-        
-                // Update cryptocurrency prices every 5 seconds (adjust as needed)
-                setInterval(fetchCryptocurrencyPrices, 5000);
-            </script>
-
+            
             <section class="hero">
                 <div class="hero-content">
                     <h1>Welcome to CryptoPredictions</h1>
-                    <p>Stay ahead with accurate cryptocurrency price predictions.</p>
+                    <p>Stay ahead with accurate cryptocurrency price predictions.</p> <br>
                     <a href="Get-Start.html" class="btn">Get Started</a>
                 </div>
-            </section>
+            </section> <br>
 
-            <section class="predictions">
-                <h2>Latest Predictions</h2>
-                <div class="prediction-cards">
-                    <div class="prediction-card">
-                        <h3>Bitcoin</h3>
-                        <p>Predicted Price: $50,000</p>
+            <section class="crypto-container">
+                <h2>Current Cryptocurrency Prices</h2>
+
+                <div class="crypto-box-container">
+                    <div class="crypto-box" id="bitcoin-box">
+                        <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="Bitcoin Logo"
+                            class="crypto-logo">
+                        <div class="crypto-name">Bitcoin</div>
+                        <div class="crypto-price" id="bitcoin-price">Loading...</div>
                     </div>
-                    <div class="prediction-card">
-                        <h3>Ethereum</h3>
-                        <p>Predicted Price: $3,000</p>
+
+                    <div class="crypto-box" id="ethereum-box">
+                        <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="Ethereum Logo"
+                            class="crypto-logo">
+                        <div class="crypto-name">Ethereum</div>
+                        <div class="crypto-price" id="ethereum-price">Loading...</div>
                     </div>
-                    <div class="prediction-card">
-                        <h3>LUNA</h3>
-                        <p>Predicted Price: Not A $</p>
+
+                    <div class="crypto-box" id="binancecoin-box">
+                        <img src="https://cryptologos.cc/logos/binance-coin-bnb-logo.png" alt="Binance Coin Logo"
+                            class="crypto-logo">
+                        <div class="crypto-name">Binance</div>
+                        <div class="crypto-price" id="binancecoin-price">Loading...</div>
                     </div>
                 </div>
             </section>
@@ -112,6 +85,29 @@
             <footer>
                 <p>&copy; 2023 CryptoPredictions. All rights reserved.</p>
             </footer>
+
+            <script>
+                function fetchCryptoPrices() {
+                    $.ajax({
+                        url: "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,binancecoin&vs_currencies=usd",
+                        method: "GET",
+                        success: function (data) {
+                            $('#bitcoin-price').text(`$${data.bitcoin.usd}`);
+                            $('#ethereum-price').text(`$${data.ethereum.usd}`);
+                            $('#binancecoin-price').text(`$${data.binancecoin.usd}`);
+                        },
+                        error: function (error) {
+                            console.log("Error fetching crypto prices:", error);
+                        }
+                    });
+                }
+
+
+                $(document).ready(function () {
+                    fetchCryptoPrices(); // Fetch prices when page loads
+                    setInterval(fetchCryptoPrices, 60000); // Refresh every 60 seconds
+                });
+            </script>
         </body>
     </div>
 </body>
