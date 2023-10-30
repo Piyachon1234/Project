@@ -1,13 +1,12 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/your-database-name', {
+mongoose.connect('mongodb://mongo:27017/Final-project', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
 const Schema = mongoose.Schema;
 
-// Define the User schema
 const userSchema = new Schema({
   UserID: { type: Number, required: true, unique: true },
   Username: String,
@@ -16,7 +15,6 @@ const userSchema = new Schema({
   RegistrationDate: Date,
 });
 
-// Define the Predictions schema
 const predictionSchema = new Schema({
   PredictionID: { type: Number, required: true, unique: true },
   UserID: { type: Number, ref: 'User' },
@@ -27,7 +25,6 @@ const predictionSchema = new Schema({
   RSISignal: String,
 });
 
-// Define the API Keys schema
 const apiKeySchema = new Schema({
   KeyID: { type: Number, required: true, unique: true },
   UserID: { type: Number, ref: 'User' },
@@ -36,17 +33,15 @@ const apiKeySchema = new Schema({
   Passphrase: String,
 });
 
-// Define the Trade History schema
 const tradeHistorySchema = new Schema({
   TradeID: { type: Number, required: true, unique: true },
-  UserID: { type: Number, ref: 'User' },
+  UserID: { type: Number, ref: 'User' }, 
   DateTimeOfTrade: Date,
   TradeType: String, // 'Buy' or 'Sell'
   Amount: Number,
   PriceAtTrade: Number,
 });
 
-// Create models based on the schemas
 const User = mongoose.model('User', userSchema);
 const Prediction = mongoose.model('Prediction', predictionSchema);
 const APIKey = mongoose.model('APIKey', apiKeySchema);
