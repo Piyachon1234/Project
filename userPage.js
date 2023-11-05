@@ -1,8 +1,10 @@
 const express = require('express');
 const app = express();
-
+const http = require('http');
+const fs =require('fs');
+const path = require('path');
 const mongoose = require('mongoose');
-//const{ User, Prediction} = require{'./database.js'};
+const { Prediction } = require('./database.js'); 
 
 
 mongoose.connect('mongodb://mongo:27017/Final-project', {
@@ -10,7 +12,12 @@ mongoose.connect('mongodb://mongo:27017/Final-project', {
   useUnifiedTopology: true,
 });
 
-
+const server = http.createServer((res, req) => {
+  if(req.url === '/'){
+    const filePath = path.join(__dirname, 'public', 'index.html');
+     
+  }
+});
 app.get('/user/:id', async (req, res) => {
     try {
       const userId = req.params.id;
@@ -39,8 +46,13 @@ app.get('/user/:id/predictions', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+app.get('/prediction-schema', (req, res) => {
+  const predictionSchema = Prediction.schema; // Get the schema of the Prediction model
+  res.json(predictionSchema);
+});
 
 // Start the server
+port = 3000;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });  
