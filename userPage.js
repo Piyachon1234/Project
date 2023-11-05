@@ -15,7 +15,15 @@ mongoose.connect('mongodb://mongo:27017/Final-project', {
 const server = http.createServer((res, req) => {
   if(req.url === '/'){
     const filePath = path.join(__dirname, 'public', 'index.html');
-     
+     fs.readFile(filePath, (err, data) => {
+      if(err){
+        res.writeHead(500, {'Content-type': 'text/plain'});
+        res.end('Internal Server Error');
+      }else{
+        res.writeHead(200, {'Content-type' : 'text/head'});
+        res.end(data);
+      }
+     });
   }
 });
 app.get('/user/:id', async (req, res) => {
