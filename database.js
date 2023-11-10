@@ -7,17 +7,19 @@ mongoose.connect('mongodb://mongo:27017/Final-project', {
 
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
+const userSchema = new Schema({ 
   UserID: { type: Number, required: true, unique: true },
-  Username: String,
-  Email: String,
-  Password: String,
+  Username: {type: String, required: true, unique: true},
+  Email: {type: String, required: true, unique: true},
+  Password: {type: String, required: true, unique: true},
   RegistrationDate: Date,
 });
 
-const predictionSchema = new Schema({
+const predictionSchema = new Schema({ 
+  //collect coin name
   PredictionID: { type: Number, required: true, unique: true },
   UserID: { type: Number, ref: 'User' },
+  CoinName: String,
   DateOfPrediction: Date,
   PredictedPrice: Number,
   ActualPrice: Number,
