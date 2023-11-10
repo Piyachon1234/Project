@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const crypto = require('crypto');
 mongoose.connect('mongodb://mongo:27017/Final-project', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -15,16 +15,16 @@ const userSchema = new Schema({
   RegistrationDate: Date,
 });
 
-const predictionSchema = new Schema({ 
-  //collect coin name
-  PredictionID: { type: Number, required: true, unique: true },
-  UserID: { type: Number, ref: 'User' },
-  CoinName: String,
-  DateOfPrediction: Date,
-  PredictedPrice: Number,
-  ActualPrice: Number,
-  TradeSignal: String,
-  RSISignal: String,
+userSchema.pre('save', function(next){
+  try{
+    const salt = crypto.randomBytes(16).toString('hex');
+    const hashPassword = crypto.createHash('sha256').update(this.Password + salt).digest('hex');
+    this.password = hashPassword;
+    this.salt = salt;
+    next();
+  }catch(error){
+    next(error);
+  }
 });
 
 const apiKeySchema = new Schema({
