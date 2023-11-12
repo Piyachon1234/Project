@@ -44,10 +44,15 @@ const tradeHistorySchema = new Schema({
   PriceAtTrade: Number,
 });
 
+const riskManagementQuestion = new Schema({
+
+});
+
 const User = mongoose.model('User', userSchema);
 const Prediction = mongoose.model('Prediction', predictionSchema);
 const APIKey = mongoose.model('APIKey', apiKeySchema);
 const TradeHistory = mongoose.model('TradeHistory', tradeHistorySchema);
+const RiskManagement = mongoose.model('RiskManagement', riskManagementQuestion);
 
 module.exports = {
   User,
