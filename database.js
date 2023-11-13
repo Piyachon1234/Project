@@ -45,7 +45,11 @@ const tradeHistorySchema = new Schema({
 });
 
 const riskManagementQuestion = new Schema({
-
+  UserID: {type: Number, ref:'User'},
+  portSize: {type: Number, required: true},
+  riskPercentage: {type: Number, required: true},
+  automated: {type: Boolean, required: true},
+  
 });
 
 const User = mongoose.model('User', userSchema);
