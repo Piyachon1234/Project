@@ -8,7 +8,11 @@ mongoose.connect('mongodb://mongo:27017/Final-project', {
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({ 
-  UserID: { type: Number, required: true, unique: true },
+  UserID: { type: Number, required: true, unique: true,
+  default: function(){
+    return crypto.randomBytes(4).readUInt32LE(0);
+  }
+  },
   Username: {type: String, required: true, unique: true},
   Email: {type: String, required: true, unique: true},
   Password: {type: String, required: true, unique: true},
