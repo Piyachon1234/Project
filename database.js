@@ -51,7 +51,34 @@ const riskManagementQuestion = new Schema({
   automated: {type: Boolean, required: true},
   
 });
+const RiskManagementSchema = new Schema({
+  UserID: { type: Number, ref: 'User', required: true },
+  PortfolioSize: { type: Number, required: true },
+  RiskPerTrade: { type: Number, required: true },
+  StopLossPercentage: { type: Number, required: true },
+  TakeProfitPercentage: { type: Number, required: true },
+  Automated: { type: Boolean, required: true },
+  VolatilityTolerance: { type: Number },
+  Timeframe: { type: String, enum: ['short', 'medium', 'long'], required: true },
+  Strategy: { type: String, enum: ['conservative', 'balanced', 'aggressive'], required: true },
 
+  MaxDrawdown: { type: Number, required: true }, //the maximum percentage or amount a portfolio can drop from its peak before reaching a new peak. 
+
+  MaxConcurrentTrades: { type: Number, required: true }, //the maximum number of trades that a user is willing to have open at the same time. 
+
+  DiversificationRules: {
+      MaxAssetAllocation: { type: Number }, //The maximum percentage of the total investment portfolio that can be allocated to a single asset.
+      MaxSectorAllocation: { type: Number }, //the maximum percentage of the portfolio that can be invested in a single sector.
+  },
+
+  BacktestingPreferences: {
+      Period: { type: String },
+      HistoricalDataRange: { type: String },
+  }, //the trading strategy is tested against historical data
+
+  RiskRewardRatio: { type: Number }, //It's a calculation used by investors to compare the expected returns of an investment to the amount of risk they are taking. 
+
+});
 const User = mongoose.model('User', userSchema);
 const Prediction = mongoose.model('Prediction', predictionSchema);
 const APIKey = mongoose.model('APIKey', apiKeySchema);
