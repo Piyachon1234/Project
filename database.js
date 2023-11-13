@@ -81,7 +81,7 @@ const RiskManagementSchema = new Schema({
   }, //the trading strategy is tested against historical data
 
   RiskRewardRatio: { type: Number }, //It's a calculation used by investors to compare the expected returns of an investment to the amount of risk they are taking. 
-
+  predicetedPrice: {type: Number},
 });
 const User = mongoose.model('User', userSchema);
 const Prediction = mongoose.model('Prediction', predictionSchema);

@@ -10,6 +10,7 @@ app.use(express.MongoClient());
 //const apiSecret = ;
 //const apiUrl = ;
 const timestamp = Date.now();
+const endpoint = 'เดี๋ยวแปะลิ้งค์http';
 const signature = crypto
   .createHmac('sha256', apiSecret)
   .update(timestamp + endpoint + JSON.stringify(requestData))
