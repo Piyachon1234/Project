@@ -77,15 +77,38 @@
     
 
         <div class="card mb-3 shadow-sm">
-            <div class="card-body">
-                <h2 class="card-title">Why did we make this crypto currency prediction website?</h2>
-                <p class="card-text">This is the MUIC student project. Creating a cryptocurrency prediction website offers a 
-                    unique opportunity to tap into the rapidly growing interest in digital currencies. It serves as a vital 
-                    resource for investors navigating the volatile crypto market, providing data-driven insights and forecasts to inform 
-                    their investment decisions. Such a platform not only educates newcomers about market trends and the underlying technology of 
-                    cryptocurrencies but also showcases sophisticated data analytics and machine learning capabilities. This combination of financial guidance, 
-                    education, and technological innovation makes a cryptocurrency prediction website both a valuable tool for users and a potentially rewarding 
-                    venture for its creators.</p>
+    <div class="card-body">
+        <h2 class="card-title">Coin Prediction</h2>
+        <p class="card-text">Here are the latest predictions:</p>
+        <div class="table-responsive">
+            
+        
+        <form action="Prediction.php" method="post">
+    <select name="currency" id="currencySelect" onchange="submitForm()" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); margin-bottom: 20px;">
+        <option value="">Select a currency</option>
+        <option value="ADA">ADA</option>
+        <option value="BTC">BTC</option>
+        <option value="ETH">ETH</option>
+        <!-- Add other options here if necessary -->
+    </select>
+</form>
+
+<script>
+function submitForm() {
+    var currencySelect = document.getElementById('currencySelect');
+    if (currencySelect.value !== "") {
+        currencySelect.form.submit();
+    }
+}
+</script>
+
+    </tbody>
+</table>
+</div>
+</div>
+</div>
+                
+                <p class="card-text">Charts</p>
             </div>
         </div>
 
@@ -105,6 +128,21 @@
         document.getElementById("loginPopup").style.display = "none";
         document.getElementById("overlay").style.display = "none";
     }
-    </script>
+
+    
+    // Fetch predictions and update the DOM
+    fetch('/api/predictions')
+    .then(response => response.json())
+    .then(data => {
+        const predictionsContainer = document.getElementById('predictionsContainer');
+        data.forEach(prediction => {
+            const predictionElement = document.createElement('div');
+            predictionElement.innerHTML = `Prediction ID: ${prediction.PredictionID}, Predicted Price: ${prediction.PredictedPrice}, Actual Price: ${prediction.ActualPrice}`;
+            predictionsContainer.appendChild(predictionElement);
+        });
+    })
+    .catch(error => console.error('Error:', error));
+</script>
+
 
 </html>
